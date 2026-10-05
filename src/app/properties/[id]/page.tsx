@@ -8,10 +8,36 @@ import { properties } from "@/data/properties"
 import { ArrowLeft, MapPin, Maximize, Bed, Bath, Calendar } from "lucide-react"
 import Link from "next/link"
 
+import { Metadata } from "next"
+
 export function generateStaticParams() {
   return properties.map((p) => ({
     id: p.id,
   }))
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const property = properties.find((p) => p.id === id)
+
+  if (!property) {
+    return { title: 'Property Not Found | Aurelia Dubai' }
+  }
+
+  return {
+    title: `${property.name} | ${property.location} | Aurelia`,
+    description: `Discover ${property.name} in ${property.location}. Exclusively offered at ${property.price} by Aurelia Private Real Estate.`,
+    openGraph: {
+      title: `${property.name} | Aurelia Dubai`,
+      description: `Luxury ${property.status.toLowerCase()} property in ${property.location}. ${property.price}.`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${property.name} | Aurelia Dubai`,
+      description: `Luxury ${property.status.toLowerCase()} property in ${property.location}.`,
+    },
+  }
 }
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {

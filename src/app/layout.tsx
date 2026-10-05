@@ -14,6 +14,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://luxury-real-estate-agency.vercel.app'),
   title: "AURELIA | Dubai Private Real Estate",
   description: "Curated residences. Exceptional addresses. Dubai.",
 };
